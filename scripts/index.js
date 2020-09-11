@@ -15,18 +15,36 @@ import store from './store.js';
 import $ from 'jquery';
 
 
+// export function toggleAccordion(){
+//   let accordion = document.getElementsByClassName('accordion');
 
+//   $('.accordion').on('click', function(){
+//     this.classList.toggle('active');
+//   })
+  
+//   let panel = this.nextElementSibling;
+//   if(panel.style.maxHeight){
+//     panel.style.maxHeight= "null";
+//   }else{
+//     panel.style.maxHeight = panel.scrollHeight + "px";
+//   }
+  
+// }
+
+$(function(){
+  $('.bookmark-element').accordion({collapsible: true})
+})
 
 export function generateBookmark(bookmark) {
   return `
-    <li class="bookmark-element" data-item-id="${bookmark.id}">
-      <a href="${bookmark.url}">${bookmark.title}</a>
-      <br>
-      Description:${bookmark.desc}
-      <br>
-      Rating:${bookmark.rating}
+    <li  data-item-id="${bookmark.id}">
+     <button class="accordion"><a href="${bookmark.url}"> ${bookmark.title} </a></button>
+      <div class="panel">
+      <p>Description: ${bookmark.desc} </p>
+      <p>Rating: ${bookmark.rating} </p>
       <br>
       <button class="delete-bookmark">Delete Bookmark</button>
+      </div>
     </li>
   `;
 }
@@ -43,8 +61,8 @@ export function generateBookmarkList() {
   <option value="1">1-star</option>
 </select></div>
 
-    <ul>
-      ${store.bookmarks.map((bookmark) => generateBookmark(bookmark)).join()}
+    <ul class="bookmark-element">
+      ${store.bookmarks.map((bookmark) => generateBookmark(bookmark).join())}
     </ul>
   `;
 
@@ -56,15 +74,16 @@ export function generateBookmarkList() {
 function generateForm() {
   return `
     <form class="add-new">
-      <label for="bookmark">Add New Bookmark</label><input type="text" id="url" placeholder="https://link-here">
+      <label for="bookmark">New Bookmark</label><input type="text" id="url"  value="https://"  >
       <label for="title">Title</label><input type="text" id="title" placeholder="Title" />
       <label for="desc">Description</label><input type='text' id="desc" placeholder="Description"/>
-      <label for="rating">Rating</label>
-        <input type="radio" id="star1-rating" name="star" value="1"><label for="star1">1</label>
-        <input type="radio" id="star2-rating" name="star" value="2"><label for="star2">2</label>
-        <input type="radio" id="star3-rating" name="star" value="3"><label for="star3">3</label>
-        <input type="radio" id="star4-rating" name="star" value="4"><label for="star4">4</label>
-        <input type="radio" id="star5-rating" name="star" value="5"><label for="star5">5</label>
+      <div class="rating"><label for="rating">Rating</label>
+        <input type="radio" class="star star-1" id="star1-rating" name="star" value="1"><label class="star star-1" for="star-1"></label>
+        <input type="radio" class="star star-2" id="star2-rating" name="star" value="2"><label class="star star-2" for="star-2"></label>
+        <input type="radio" class="star star-3" id="star3-rating" name="star" value="3"><label class="star star-3" for="star-3"></label>
+        <input type="radio" class="star star-4" id="star4-rating" name="star" value="4"><label class="star star-4" for="star-4"></label>
+        <input type="radio" class="star star-5" id="star5-rating" name="star" value="5"><label class="star star-5" for="star-5"></label>
+      </div>
       <button type='submit' class='submit-button'>Submit</button> 
     </form>
     `;
