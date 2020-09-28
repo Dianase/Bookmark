@@ -14,5 +14,5 @@ export default {
   setError: function (msg) {
     this.error = msg;
   },
-
+  
 };

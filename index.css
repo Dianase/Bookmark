@@ -12,8 +12,7 @@ html{
 }
 body{
   margin:20px;
- 
-  color: #7FDBFF;
+ color: rgb(224, 110, 68);
 
 }
 h1{
@@ -34,6 +33,11 @@ div.rating{
   display: inline-block;
 }
 
+fieldset{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+ } 
 button{
   background-color:#ebde9a;
   width: 50%;
@@ -81,7 +85,8 @@ ul{
 }
 
 .active, .accordion:hover {
-  background-color: #ccc;
+  background-color: rgb(202, 74, 74);
+  
 }
 .panel {
   padding: 0 18px;
@@ -89,7 +94,7 @@ ul{
   display: none;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.2s ease-out;
+  transition: 0.2s ease-out;
 }
 
 input.star { 
@@ -100,27 +105,21 @@ label.star {
   display: inline-block;
   padding: 5px;
   font-size: 16px;
-  color: #444;
+  color: rgb(100, 90, 90);
   transition: all .2s;
-  
+  margin:5px;
 }
 
-input.star:checked ~ label.star:before {
-  content: '\f005';
-  color: #FD4;
-  transition: all .25s;
-}
-
-input.star-5:checked ~ label.star:before {
-  color: #FE7;
-  text-shadow: 0 0 20px #952;
-}
-
-input.star-1:checked ~ label.star:before { color: #F62; }
-
-label.star:hover { transform: rotate(-15deg) scale(1.3); }
+label.star:hover { transform: rotate(-15deg) scale(2.3);
+  color: orange;
+   }
 
 label.star:before {
-  content: '\f006';
+  content: '\f005';
   font-family: FontAwesome;
 }
+
+.rating{
+  color: orange;
+}
+
