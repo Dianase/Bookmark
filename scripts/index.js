@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 export function generateBookmark(bookmark) {
   return `
-    <li  data-item-id="${bookmark.id}">
+    <li class="bookmark-element" data-item-id="${bookmark.id}">
       <fieldset>
         <div class="container">
           <div class="accordion">
@@ -12,7 +12,7 @@ export function generateBookmark(bookmark) {
             <p>Rating: ${bookmark.rating} </p>
           </div>
           <div class="panel hidden">
-            <p>Description: ${bookmark.desc} </p>
+            Description: ${bookmark.desc}
               <br>
             <button class="delete-bookmark">Delete</button>
           </div>
@@ -44,14 +44,20 @@ function generateForm() {
       <label for="bookmark">New Bookmark</label><input type="text" id="url"  value="https://"  >
       <label for="title">Title</label><input type="text" id="title" placeholder="Title" />
       <label for="desc">Description</label><input type='text' id="desc" placeholder="Description"/>
-      <div><label for="rating">Rating</label>
-      <label class="star star-1" for="star-1"><input type="radio" class="star star-1" id="star1-rating" name="star" value=1 required></label>
-        <input type="radio" class="star star-2" id="star2-rating" name="star" value=2 required><label class="star star-2" for="star-2"></label>
-        <input type="radio" class="star star-3" id="star3-rating" name="star" value=3 required><label class="star star-3" for="star-3"></label>
-        <input type="radio" class="star star-4" id="star4-rating" name="star" value=4 required><label class="star star-4" for="star-4"></label>
-        <input type="radio" class="star star-5" id="star5-rating" name="star" value=5 required><label class="star star-5" for="star-5"></label>
+      <div>
+        <label for="rating">Rating</label>
+        <input type="radio" class="star star-1" id="star1-rating" name="star" value=1 required>
+        <label class="star star-1" for="star1-rating"></label>
+        <input type="radio" class="star star-2" id="star2-rating" name="star" value=2>
+        <label class="star star-2" for="star2-rating"></label>
+        <input type="radio" class="star star-3" id="star3-rating" name="star" value=3>
+        <label class="star star-3" for="star3-rating"></label>
+        <input type="radio" class="star star-4" id="star4-rating" name="star" value=4>
+        <label class="star star-4" for="star4-rating"></label>
+        <input type="radio" class="star star-5" id="star5-rating" name="star" value=5>
+        <label class="star star-5" for="star5-rating"></label>
       </div>
-      <button type='submit' class='submit-button'>Submit</button> 
+      <button type='submit' class='submit-button'>Submit</button>
     </form>
     `;
 }
@@ -64,7 +70,8 @@ export function handleSubmitBookmark() {
     let title = $('#title').val();
     title = title.charAt(0).toUpperCase() + title.slice(1);
     const desc = $('#desc').val();
-    let rating = $('input:checked').val();
+    // let rating = $('input:checked').val();
+    let rating = Number($('input[name="star"]:checked').val())
     console.log(rating, "rating");
     const bookmark = { url, title, desc, rating };
 
@@ -113,11 +120,12 @@ function bindEventListeners() {
   handleSubmitBookmark();
   handleDeleteBookmark();
 }
-//dynamically add content 
+//dynamically add content
 function render() {
   let html = '';
   html += generateBookmarkList();
   $('.bookmark').html(html);
+  toggleAccordion();
 }
 
 function start() {
@@ -135,9 +143,30 @@ function start() {
     });
 }
 
+function toggleAccordion() {
+  setTimeout(() => {
+    const acc = document.querySelectorAll(".accordion");
+
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+          panel.style.minHeight = "0";
+        } else {
+          panel.style.display = "block";
+          panel.style.minHeight = "50px";
+        }
+      });
+    }
+  }, 100)
+}
+
 function main() {
   render();
   start();
+  toggleAccordion()
   let form = '';
   form += generateForm();
   $('.main').html(form);
