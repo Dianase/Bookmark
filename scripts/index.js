@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 export function generateBookmark(bookmark) {
   return `
-    <li class="bookmark-element" data-item-id="${bookmark.id}">
+    <li class="bookmark-element rating-element rating-${bookmark.rating}" data-item-id="${bookmark.id}">
       <fieldset>
         <div class="container">
           <div class="accordion">
@@ -36,6 +36,19 @@ export function generateBookmarkList() {
 <ul class="bookmark-element"> ${store.bookmarks.map((bookmark) => generateBookmark(bookmark))}
     </ul>`;
 
+}
+
+export function filterByRating() {
+  $('body').on('change', '.filter-by-rating>select', function () {
+    let rating = this.value;
+    $('li.rating-element').hide();
+    if (rating == 0) {
+      $('li.rating-element').show();
+
+    } else {
+      $('li.rating-' + rating).show();
+    }
+  });
 }
 
 function generateForm() {
@@ -119,6 +132,7 @@ export function handleDeleteBookmark() {
 function bindEventListeners() {
   handleSubmitBookmark();
   handleDeleteBookmark();
+  filterByRating();
 }
 //dynamically add content
 function render() {
@@ -148,7 +162,7 @@ function toggleAccordion() {
     const acc = document.querySelectorAll(".accordion");
 
     for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
+      acc[i].addEventListener("click", function () {
         this.classList.toggle("active");
         const panel = this.nextElementSibling;
         if (panel.style.display === "block") {
